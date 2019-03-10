@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+
+    <title>Страница выбора</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+    <meta name="ctx" th:content="${#httpServletRequest.getContextPath()}"/>
+</head>
+
+<body>
+
+<div class="container">
+    <br>
+    <h1>Выбери самого мимимишного кота</h1>
+
+    <table class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <th>ID</th>
+            <th>Название</th>
+            <th>Фото</th>
+            <th>Выбрать</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr th:each="cat : ${cats}">
+            <td th:text="${cat.id}"/>
+            <td th:text="${cat.name}"/>
+            <td>
+                <img  th:src="@{'data:image/jpg;base64,' + ${T(org.springframework.util.Base64Utils).encodeToString(cat.photo)}}"/>
+            </td>
+            <td>
+                <form th:action="@{/start}" method="post">
+                    <input hidden type="text" th:value="${cat.id}" th:name="selectedCat"/>
+                    <button type="submit" value="save">Выбрать</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+</body>
+</html>
