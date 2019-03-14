@@ -33,7 +33,7 @@
             <td th:text="${cat.id}"/>
             <td th:text="${cat.name}"/>
             <td>
-                <img  th:src="@{'data:image/jpg;base64,' + ${T(org.springframework.util.Base64Utils).encodeToString(cat.photo)}}"/>
+                <img th:src="@{'/uploads/'+ ${cat.id} +'.jpg/'}"/>
             </td>
             <td th:text="${cat.rating}"/>
         </tr>
