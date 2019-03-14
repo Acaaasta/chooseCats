@@ -1,17 +1,12 @@
 package com.acasssta.chooseCats.controllers;
 
+import com.acasssta.chooseCats.config.ResourceConfig;
 import com.acasssta.chooseCats.entities.Cat;
 import com.acasssta.chooseCats.entities.SystemUser;
-import com.acasssta.chooseCats.entities.User;
-import com.acasssta.chooseCats.entities.UserPrincipal;
-import com.acasssta.chooseCats.services.CatService;
+import com.acasssta.chooseCats.services.CatServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.AuthenticatedPrincipal;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -21,10 +16,10 @@ import java.util.List;
 @Controller
 public class MainController {
 
-    private CatService catService;
+    private CatServiceImpl catService;
 
     @Autowired
-    public void setCatService(CatService catService) {
+    public void setCatService(CatServiceImpl catService) {
         this.catService = catService;
     }
 
@@ -41,7 +36,7 @@ public class MainController {
     }
 
     @GetMapping("/start")
-    public String showHomePage(Model model, Principal principal) {
+    public String startChoosing(Model model, Principal principal) {
         if (principal!=null) {
             List<Cat> twoUserCat = catService.getTwoCats(principal.getName());
             if (twoUserCat.size() != 0) {
@@ -58,10 +53,8 @@ public class MainController {
 
     @PostMapping("/start")
     public String catSelected(Model model,
-                              //@ModelAttribute("cats") List<Cat> twoCats,
                               Principal principal, @RequestParam("selectedCat") Cat selectedCat) {
-        //List<Cat> twoCats = (List<Cat>) model.asMap().get("cats");
-        catService.IncreaseRating(selectedCat, principal.getName());
+        catService.increaseRating(selectedCat, principal.getName());
 
         return "redirect:/start";
     }

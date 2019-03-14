@@ -23,6 +23,8 @@ public class User {
     @Column(name = "password")
     private String password;
 
+    private String role;
+
     @ManyToMany
     @JoinTable(
             name = "user_cat",
@@ -30,12 +32,6 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "cat_id")
     )
     private List<Cat> userCat;
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "users_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Collection<Role> roles;
 
     public User() {
     }

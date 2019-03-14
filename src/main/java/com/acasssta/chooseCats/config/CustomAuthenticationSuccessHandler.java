@@ -23,14 +23,12 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
 			throws IOException, ServletException {
-//		String userName = authentication.getName();
-//		User theUser = userService.findByUserName(userName);
-//		HttpSession session = request.getSession();
-//		session.setAttribute("user", theUser);
+
 		if(!request.getHeader("referer").contains("login")) {
 			response.sendRedirect(request.getHeader("referer"));
 		} else {
 			response.sendRedirect(request.getContextPath() + "/start");
 		}
+
 	}
 }
